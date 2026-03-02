@@ -33,7 +33,7 @@ const AppContent = () => {
   const location = useLocation();
 
   // Agent Builder uses app-like layout (with header, no footer)
-  if (location.pathname === '/agent-builder') {
+  if (location.pathname === '/agent-builder' || location.pathname === '/builder') {
     return (
       <AppLayout>
         <AgentBuilder />

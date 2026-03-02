@@ -32,15 +32,17 @@ const Navigation = () => (
                     </NavLink>
                 ))}
 
-                {/* Agent Builder — opens the standalone app in a new tab */}
-                <button
-                    onClick={() => window.open(config.AGENT_BUILDER_URL, '_blank', 'noopener,noreferrer')}
+                {/* Agent Builder — opens external app in a new tab */}
+                <a
+                    href={config.AGENT_BUILDER_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={tabClass(false)}
                 >
                     <Wrench className="w-5 h-5" />
                     <span className="text-sm font-medium">Agent Builder</span>
                     <ExternalLink className="w-3 h-3 opacity-60" />
-                </button>
+                </a>
             </div>
         </div>
     </nav>

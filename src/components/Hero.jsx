@@ -1,4 +1,5 @@
 import { ArrowRight, CheckCircle, TrendingUp, Users } from 'lucide-react';
+import aiTeamHero from '../assets/ai-team-hero.png';
 
 const Hero = () => {
   return (
@@ -58,10 +59,12 @@ const Hero = () => {
 
           {/* Right Visual */}
           <div className="relative">
-            {/* Placeholder for AI Visualization */}
-            <div className="bg-gradient-to-br from-orange-200 via-amber-100 to-pink-200 rounded-2xl aspect-square relative overflow-hidden">
-              {/* Abstract pattern overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-300/30 to-transparent"></div>
+            <div className="rounded-2xl aspect-square relative overflow-hidden">
+              <img
+                src={aiTeamHero}
+                alt="AI Team - Strategic Solutions for UK Public Sector"
+                className="w-full h-full object-cover"
+              />
 
               {/* Compliance Score Card */}
               <div className="absolute top-6 right-6 bg-white rounded-xl p-4 shadow-lg">

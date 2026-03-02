@@ -42,9 +42,9 @@ const Header = () => {
           </button>
           <button className="flex items-center space-x-2 px-3 py-2 hover:bg-blue-800 rounded-lg transition-colors">
             <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center text-sm font-semibold">
-              JD
+              JC
             </div>
-            <span className="text-sm font-medium">Jane Doe</span>
+            <span className="text-sm font-medium">Jishnu C</span>
             <ChevronDown className="w-4 h-4" />
           </button>
         </div>

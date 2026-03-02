@@ -49,6 +49,10 @@ npm run build
 npm run preview
 ```
 
+### Deploy to AWS
+
+See [AWS_DEPLOYMENT.md](AWS_DEPLOYMENT.md) for a step-by-step guide to deploy to S3 and CloudFront.
+
 ## Project Structure
 
 ```
@@ -123,4 +127,3 @@ This is a demonstration project created for educational purposes.
 - Original design inspiration from the UK Public Sector AI Marketplace
 - Icons by Lucide
 - Built with React and Tailwind CSS
-# Public Sector AI Marketplace

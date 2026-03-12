@@ -7,7 +7,7 @@
  */
 const config = {
     /** URL of the standalone Agent Builder application */
-    AGENT_BUILDER_URL: import.meta.env.VITE_AGENT_BUILDER_URL || 'http://32.192.47.49/builder',
+    AGENT_BUILDER_URL: import.meta.env.VITE_AGENT_BUILDER_URL || 'http://3.238.63.76/builder',
 };
 
 export default config;

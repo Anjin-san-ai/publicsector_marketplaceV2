@@ -57,8 +57,10 @@ const AppContent = () => {
 };
 
 function App() {
+  // basename for when app is served from a subpath (e.g. /mcp-marketplace)
+  const basename = (import.meta.env.BASE_URL || '/').replace(/\/$/, '') || undefined;
   return (
-    <Router>
+    <Router basename={basename}>
       <AppContent />
     </Router>
   );

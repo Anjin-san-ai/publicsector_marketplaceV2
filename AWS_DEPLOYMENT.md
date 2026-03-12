@@ -128,13 +128,35 @@ Replace `YOUR-BUCKET-NAME` with your bucket name.
 
 ---
 
-## Environment Variables
+## Production deployment (uk-ai-marketplace-aiateam)
 
-To change the Agent Builder URL in production, set `VITE_AGENT_BUILDER_URL` before building:
+The live site is at **http://uk-ai-marketplace-aiateam.s3-website.eu-north-1.amazonaws.com/** and is served from the **root** of the bucket (no subpath).
+
+That bucket is in a **different AWS account**. You must log in to the account that owns `uk-ai-marketplace-aiateam` (e.g. via AWS SSO or a CLI profile), then run:
 
 ```bash
-VITE_AGENT_BUILDER_URL=https://your-agent-builder-url.com npm run build
+# Build for root (default; do not set VITE_BASE_PATH)
+npm run build
+
+# Deploy to production bucket (eu-north-1)
+aws s3 sync dist/ s3://uk-ai-marketplace-aiateam --delete
 ```
+
+If you see **Access Denied**, you are in the wrong AWS account — switch to the account that owns `uk-ai-marketplace-aiateam` and run the same commands.
+
+---
+
+## Environment Variables
+
+- **Agent Builder URL:** set before building if you need to override the default:
+  ```bash
+  VITE_AGENT_BUILDER_URL=https://your-agent-builder-url.com npm run build
+  ```
+- **Subpath deployment:** only if the app is served from a path like `/mcp-marketplace/` (not for the main production root URL):
+  ```bash
+  VITE_BASE_PATH=/mcp-marketplace/ npm run build
+  aws s3 sync dist/ s3://YOUR-BUCKET-NAME/mcp-marketplace/ --delete
+  ```
 
 ---
 

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cognizant | UK Public Sector Data & AI Hubs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --cz-primary: #0033a0;
+      --cz-primary-light: #0053d6;
+      --cz-accent: #00b140;
+      --cz-bg: #f5f7fb;
+      --cz-card-bg: #ffffff;
+      --cz-text-main: #1d1d1f;
+      --cz-text-muted: #4c4f54;
+      --cz-border-subtle: #dde3f0;
+      --cz-tab-bg: #e7ecf8;
+      --cz-tab-active-bg: #ffffff;
+      --cz-radius-card: 10px;
+      --cz-radius-pill: 999px;
+      --cz-shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: var(--cz-bg);
+      color: var(--cz-text-main);
+      line-height: 1.6;
+    }
+
+    /* ---------- Header ---------- */
+    .cz-header {
+      background: linear-gradient(90deg, var(--cz-primary), var(--cz-primary-light));
+      color: #fff;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .cz-header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .cz-logo {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .cz-header-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .cz-header-subtitle {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    /* ---------- Page container ---------- */
+    .cz-page {
+      max-width: 1200px;
+      margin: 24px auto 40px;
+      padding: 0 16px;
+    }
+
+    /* ---------- Tabs ---------- */
+    .cz-tabs {
+      background: var(--cz-tab-bg);
+      border-radius: var(--cz-radius-pill);
+      padding: 4px;
+      display: inline-flex;
+      gap: 4px;
+      margin-bottom: 24px;
+      box-shadow: var(--cz-shadow-soft);
+    }
+
+    .cz-tab-btn {
+      border: none;
+      background: transparent;
+      padding: 10px 20px;
+      border-radius: var(--cz-radius-pill);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--cz-text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .cz-tab-btn span.chip {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .cz-tab-btn:hover {
+      background: rgba(255, 255, 255, 0.5);
+      color: var(--cz-primary);
+    }
+
+    .cz-tab-btn.active {
+      background: var(--cz-tab-active-bg);
+      color: var(--cz-primary);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    /* ---------- Panels ---------- */
+    .cz-tab-panel {
+      display: none;
+      margin-top: 8px;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .cz-tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---------- Layout blocks ---------- */
+    .cz-section {
+      margin-bottom: 24px;
+    }
+
+    .cz-section-header {
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .cz-section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--cz-text-muted);
+    }
+
+    .cz-section-kicker {
+      font-size: 0.85rem;
+      color: var(--cz-text-muted);
+    }
+
+    .cz-banner {
+      background: var(--cz-card-bg);
+      border-radius: var(--cz-radius-card);
+      padding: 20px 20px 18px;
+      box-shadow: var(--cz-shadow-soft);
+      border-left: 4px solid var(--cz-accent);
+    }
+
+    .cz-banner-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--cz-primary);
+    }
+
+    .cz-banner-subtitle {
+      font-size: 0.95rem;
+      color: var(--cz-text-muted);
+      margin-bottom: 10px;
+    }
+
+    .cz-tagline {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--cz-primary);
+    }
+
+    .cz-grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .cz-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .cz-grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .cz-grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .cz-grid-3 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .cz-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .cz-card {
+      background: var(--cz-card-bg);
+      border-radius: var(--cz-radius-card);
+      padding: 16px 16px 14px;
+      box-shadow: var(--cz-shadow-soft);
+      border: 1px solid var(--cz-border-subtle);
+    }
+
+    .cz-card-header {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--cz-primary);
+    }
+
+    .cz-card-subtitle {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--cz-text-muted);
+      margin-bottom: 4px;
+    }
+
+    .cz-card-body {
+      font-size: 0.86rem;
+      color: var(--cz-text-main);
+    }
+
+    .cz-pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .cz-pill {
+      font-size: 0.75rem;
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: rgba(0, 51, 160, 0.06);
+      color: var(--cz-primary);
+      border: 1px solid rgba(0, 51, 160, 0.16);
+    }
+
+    .cz-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(0, 177, 64, 0.08);
+      color: var(--cz-accent);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .cz-mono-label {
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--cz-text-muted);
+      margin-bottom: 4px;
+    }
+
+    .cz-small {
+      font-size: 0.8rem;
+      color: var(--cz-text-muted);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header with Cognizant logo (left aligned) -->
+  <header class="cz-header">
+    <div class="cz-header-left">
+      <!-- Update src if you use a different filename for the logo -->
+      <img src="cognizant-logo.png" alt="Cognizant" class="cz-logo" />
+      <div>
+        <div class="cz-header-title">UK Public Sector Data &amp; AI Hubs</div>
+        <div class="cz-header-subtitle">
+          Cognizant capabilities &amp; offerings for UK government and public sector organisations
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="cz-page">
+    <!-- Tabs -->
+    <nav aria-label="Hub selection">
+      <div class="cz-tabs">
+        <button
+          class="cz-tab-btn active"
+          data-tab-target="#tab-data"
+          type="button"
+        >
+          Data Platform Hub
+          <span class="chip">Data Platform Engineering</span>
+        </button>
+        <button
+          class="cz-tab-btn"
+          data-tab-target="#tab-ai"
+          type="button"
+        >
+          AI Accelerator Hub
+          <span class="chip">AI &amp; GenAI</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ========================= TAB 1: DATA PLATFORM HUB ========================= -->
+    <section id="tab-data" class="cz-tab-panel active" aria-label="Data Platform Hub">
+      <div class="cz-section">
+        <div class="cz-banner">
+          <div class="cz-banner-title">
+            UK Public Sector Data Platform Engineering Hub
+          </div>
+          <div class="cz-banner-subtitle">
+            Providing solutions for data you can trust &mdash; insights that protect what matters.
+          </div>
+          <p class="cz-small">
+            The UK Public Sector Data Platform Engineering Hub team is a specialised unit of full‑stack data engineers
+            focused on modernising data estates and establishing governed, trusted data platforms –
+            ensuring an efficient foundation for citizen services.
+          </p>
+          <div class="cz-badge">Data platform engineering &bull; UK Public Sector</div>
+        </div>
+      </div>
+
+      <!-- Vision & Partner Ecosystem -->
+      <div class="cz-section">
+        <div class="cz-grid-2">
+          <div class="cz-card">
+            <div class="cz-mono-label">Vision</div>
+            <div class="cz-card-body">
+              The UK Public Sector Data Platform Engineering Hub is dedicated to helping government agencies
+              modernise their data estates and build well‑governed, trusted data platforms that unlock value,
+              enable faster decision‑making, and underpin resilient citizen services at scale.
+            </div>
+          </div>
+
+          <div class="cz-card">
+            <div class="cz-card-subtitle">Partner ecosystem</div>
+            <div class="cz-card-header">Best‑of‑breed data &amp; cloud platforms</div>
+            <div class="cz-card-body">
+              We bring an ecosystem of strategic partners to accelerate delivery and de‑risk transformation:
+              <div class="cz-pill-list">
+                <span class="cz-pill">Databricks</span>
+                <span class="cz-pill">Snowflake</span>
+                <span class="cz-pill">Palantir</span>
+                <span class="cz-pill">Informatica</span>
+                <span class="cz-pill">Talend</span>
+                <span class="cz-pill">Collibra</span>
+                <span class="cz-pill">Oracle</span>
+                <span class="cz-pill">Microsoft</span>
+                <span class="cz-pill">AWS</span>
+                <span class="cz-pill">Google</span>
+                <span class="cz-pill">NVIDIA</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Specialised Services -->
+      <div class="cz-section">
+        <div class="cz-section-header">
+          <div class="cz-section-title">Specialised data platform engineering services</div>
+          <div class="cz-section-kicker">For UK government &amp; public sector organisations</div>
+        </div>
+
+        <div class="cz-grid-3">
+          <!-- Modernising the Data Estate -->
+          <article class="cz-card">
+            <div class="cz-card-subtitle">Service</div>
+            <div class="cz-card-header">Modernising the Data Estate</div>
+            <div class="cz-card-body">
+              A holistic, enterprise‑wide approach that helps agencies migrate, integrate and optimise their
+              data platforms—often to the cloud—to unlock the value of data and enable faster, more informed
+              decision‑making.
+            </div>
+          </article>
+
+          <!-- Data Platform Development -->
+          <article class="cz-card">
+            <div class="cz-card-subtitle">Service</div>
+            <div class="cz-card-header">Data Platform Development</div>
+            <div class="cz-card-body">
+              Design and build unified, well‑governed and privacy‑compliant data ecosystems that simplify complex
+              data landscapes, improve data quality and enable trusted, insight‑driven decision‑making at scale.
+            </div>
+          </article>
+
+          <!-- Data Marketplace -->
+          <article class="cz-card">
+            <div class="cz-card-subtitle">Service</div>
+            <div class="cz-card-header">Data Marketplace</div>
+            <div class="cz-card-body">
+              A managed service that consolidates enterprise data, AI/ML assets, analytics and BI content into a single,
+              governed marketplace to accelerate data‑to‑decision, improve reuse and democratise access to trusted
+              insights across the organisation.
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Exclusive tools & platforms -->
+      <div class="cz-section">
+        <div class="cz-section-header">
+          <div class="cz-section-title">Exclusive tools &amp; platforms</div>
+          <div class="cz-section-kicker">Built to accelerate data modernisation in the UK public sector</div>
+        </div>
+
+        <div class="cz-grid-3">
+          <!-- Ignition -->
+          <article class="cz-card">
+            <div class="cz-card-subtitle">Platform</div>
+            <div class="cz-card-header">Ignition</div>
+            <div class="cz-card-body">
+              An AI‑powered suite of tools and frameworks that automates and industrialises data and analytics
+              modernisation across the entire data value chain, helping organisations modernise platforms faster,
+              more consistently and cost‑effectively across multi‑cloud environments.
+            </div>
+          </article>
+
+          <!-- National Data Platform (Alpha) -->
+          <article class="cz-card">
+            <div class="cz-card-subtitle">Platform</div>
+            <div class="cz-card-header">National Data Platform (Alpha)</div>
+            <div class="cz-card-body">
+              A pre‑configured &ldquo;Alpha&rdquo; grade data platform designed to centralise, govern and securely share
+              diverse datasets as a single, trusted national‑scale data resource &mdash; enabling easier discovery,
+              reuse and insight generation across stakeholders.
+            </div>
+          </article>
+
+          <!-- Data Unification Framework -->
+          <article class="cz-card">
+            <div class="cz-card-subtitle">Framework</div>
+            <div class="cz-card-header">Data Unification Framework</div>
+            <div class="cz-card-body">
+              A domain‑agnostic, cloud‑native framework that ingests and unifies data from multiple sources
+              into a single, trusted 360‑degree view, enabling consistent citizen intelligence, improved data quality
+              and faster insight‑driven decisions.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= TAB 2: AI ACCELERATOR HUB ========================= -->
+    <section id="tab-ai" class="cz-tab-panel" aria-label="AI Accelerator Hub">
+      <div class="cz-section">
+        <div class="cz-banner">
+          <div class="cz-banner-title">
+            UK Public Sector AI Accelerator Hub
+          </div>
+          <div class="cz-banner-subtitle">
+            Specialised centre to accelerate responsible AI adoption for government agencies.
+          </div>
+          <p class="cz-small">
+            The UK Public Sector Market Team has established the AI Accelerator Hub as the central catalyst
+            for accelerating responsible, scalable and high‑impact AI adoption across government.
+            Our vision is to empower public sector organisations with the capabilities, expertise and innovation
+            needed to harness generative and agentic AI, transforming how services are designed, delivered
+            and experienced by citizens.
+          </p>
+          <div class="cz-badge">Generative &amp; agentic AI &bull; Responsible AI</div>
+        </div>
+      </div>
+
+      <!-- Vision & Focus -->
+      <div class="cz-section">
+        <div class="cz-grid-2">
+          <div class="cz-card">
+            <div class="cz-mono-label">Vision</div>
+            <div class="cz-card-body">
+              To become the trusted, central hub for AI innovation in the UK public sector &mdash; enabling agencies
+              to move from experimentation to scaled, production‑grade AI solutions that are robust, secure,
+              responsibly governed and citizen‑centric.
+            </div>
+          </div>
+
+          <div class="cz-card">
+            <div class="cz-card-subtitle">Focus areas</div>
+            <div class="cz-card-header">AI strategy, experimentation &amp; scaling</div>
+            <div class="cz-card-body">
+              We align AI adoption with policy, ethics and operational realities, prioritising:
+              <ul class="cz-small" style="margin-top:6px; padding-left:16px;">
+                <li>Responsible AI operating models and governance.</li>
+                <li>Rapid prototyping of high‑value, high‑impact use cases.</li>
+                <li>Industrialisation of proven AI solutions across organisations.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Specialised AI Services -->
+      <div class="cz-section">
+        <div class="cz-section-header">
+          <div class="cz-section-title">Specialised AI services for UK public sector</div>
+          <div class="cz-section-kicker">From AI operating model to scaled applications</div>
+        </div>
+
+        <div class="cz-grid-3">
+          <!-- AI Operating Model Advisory -->
+          <article class="cz-card">
+            <div class="cz-card-subtitle">Service</div>
+            <div class="cz-card-header">AI Operating Model Advisory</div>
+            <div class="cz-card-body">
+              Design and implement scalable, responsible AI operating models that align strategy, governance,
+              skills and technology to enable sustained AI adoption across agencies and departments.
+            </div>
+          </article>
+
+          <!-- Rapid Prototyping -->
+          <article class="cz-card">
+            <div class="cz-card-subtitle">Service</div>
+            <div class="cz-card-header">Rapid Prototyping</div>
+            <div class="cz-card-body">
+              Transform priority use cases into working AI prototypes using a small POD of Forward Deployed Engineers,
+              allowing teams to validate value, test feasibility and refine solutions before full‑scale investment.
+            </div>
+          </article>
+
+          <!-- Scaling AI Applications -->
+          <article class="cz-card">
+            <div class="cz-card-subtitle">Service</div>
+            <div class="cz-card-header">Scaling AI Applications</div>
+            <div class="cz-card-body">
+              Industrialise proven AI solutions to make them robust, secure, responsibly governed and seamlessly
+              integrated across systems and operations, enabling sustainable AI‑driven transformation.
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Exclusive AI tools & accelerators -->
+      <div class="cz-section">
+        <div class="cz-section-header">
+          <div class="cz-section-title">Exclusive tools &amp; accelerators</div>
+          <div class="cz-section-kicker">Purpose‑built </div>
+
+        <div class="cz-grid-3">
+          <!-- Neuro AI Multi Agent Orchestrator -->
+          <article class="cz-card">
+            <div class="cz-card-subtitle">Platform</div>
+            <div class="cz-card-header">Neuro&reg; AI Multi‑Agent Orchestrator</div>
+            <div class="cz-card-body">
+              Cognizant's open‑source Neuro&reg; AI Multi‑Agent Orchestrator enables organisations to rapidly build
+              and deploy scalable, interoperable multi‑agent systems using pre‑built templates and secure,
+              enterprise‑grade frameworks for autonomous operations in hours.
+            </div>
+          </article>
+
+          <!-- Agent Foundry -->
+          <article class="cz-card">
+            <div class="cz-card-subtitle">Framework</div>
+            <div class="cz-card-header">Agent Foundry</div>
+            <div class="cz-card-body">
+              An enterprise‑grade framework built exclusively for public sector agencies, allowing teams to design,
+              deploy and scale autonomous AI agents through modular components, reusable templates and seamless
+              integration with existing systems.
+            </div>
+          </article>
+
+          <!-- Sandbox-as-a-Service with Anthropic -->
+          <article class="cz-card">
+            <div class="cz-card-subtitle">Environment</div>
+            <div class="cz-card-header">Sandbox‑as‑a‑Service with Anthropic</div>
+            <div class="cz-card-body">
+              Leverage Cognizant's enhanced partnership with Anthropic to implement Sandbox‑as‑a‑Service:
+              a secure, governed experimentation environment where teams can safely explore, prototype and validate
+              AI solutions using advanced frontier models.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Simple tab switching logic
+    (function () {
+      const buttons = document.querySelectorAll(".cz-tab-btn");
+      const panels = document.querySelectorAll(".cz-tab-panel");
+
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const target = btn.getAttribute("data-tab-target");
+          if (!target) return;
+
+          // Update buttons
+          buttons.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          // Update panels
+          panels.forEach((panel) => {
+            if ("#" + panel.id === target) {
+              panel.classList.add("active");
+            } else {
+              panel.classList.remove("active");
+            }
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,29 +1,16 @@
-import { ArrowUpRight, Shield, Github } from 'lucide-react';
+import { Shield } from 'lucide-react';
 
 const MCPCard = ({ mcp }) => {
   const isComingSoon = !!mcp.comingSoon;
   const href = mcp.externalUrl || null;
-  const isGithub = href && href.includes('github.com');
 
-  const content = (
-    <>
-      <div className="app-card-header">
-        <div className="app-card-icon">{mcp.icon && <mcp.icon size={20} />}</div>
-        <div className="app-card-heading">
-          <h3 className="app-card-title">{mcp.name}</h3>
-          <span className="app-card-sub">{mcp.organization}</span>
-        </div>
-        {href && !isComingSoon && (
-          isGithub
-            ? <Github size={16} className="app-card-arrow" aria-hidden />
-            : <ArrowUpRight size={16} className="app-card-arrow" aria-hidden />
-        )}
-      </div>
-
-      <p className="app-card-desc">{mcp.description}</p>
-
-      <div className="app-card-meta">
-        <span className="app-card-vendor">{mcp.category}</span>
+  const front = (
+    <div className="app-card-face app-card-front">
+      <div className="app-card-icon">{mcp.icon && <mcp.icon size={20} />}</div>
+      <span className="app-card-eyebrow">{mcp.category}</span>
+      <h3 className="app-card-title">{mcp.name}</h3>
+      <div className="app-card-front-foot">
+        <span className="app-card-hint">Hover for details ▸</span>
         {isComingSoon ? (
           <span className="app-card-pill is-soon">Coming soon</span>
         ) : mcp.securityTested ? (
@@ -34,7 +21,34 @@ const MCPCard = ({ mcp }) => {
           <span className="app-card-pill is-live">Available</span>
         )}
       </div>
-    </>
+    </div>
+  );
+
+  const back = (
+    <div className="app-card-face app-card-back" aria-hidden="true">
+      <div className="app-card-back-head">
+        <h3 className="app-card-back-title">{mcp.name}</h3>
+        <span className="app-card-back-eyebrow">{mcp.category}</span>
+      </div>
+      <p className="app-card-back-desc">{mcp.description}</p>
+      <div className="app-card-back-foot">
+        <span>{mcp.organization}</span>
+        <span className="app-card-back-foot-cta">
+          {isComingSoon
+            ? 'Coming soon'
+            : mcp.securityTested
+              ? 'Security tested ▸'
+              : 'Tap to open ▸'}
+        </span>
+      </div>
+    </div>
+  );
+
+  const flip = (
+    <div className="app-card-flip">
+      {front}
+      {back}
+    </div>
   );
 
   const className = `app-card reveal${isComingSoon ? ' is-coming-soon' : ''}`;
@@ -47,14 +61,14 @@ const MCPCard = ({ mcp }) => {
         rel="noopener noreferrer"
         className={className}
       >
-        {content}
+        {flip}
       </a>
     );
   }
 
   return (
     <div className={className} aria-disabled={isComingSoon || undefined}>
-      {content}
+      {flip}
     </div>
   );
 };

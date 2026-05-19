@@ -87,15 +87,15 @@ const MCPMarketplace = () => {
         </div>
 
         {/* Category tabs */}
-        <div style={{ display: 'flex', gap: 8, marginBottom: 32, overflowX: 'auto', paddingBottom: 4 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 32 }}>
           {categories.map(category => (
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
               className={`btn ${activeCategory === category.id ? 'btn-accent' : 'btn-ghost'}`}
-              style={{ padding: '8px 16px', fontSize: 13, whiteSpace: 'nowrap', flexShrink: 0, display: 'flex', alignItems: 'center', gap: 6 }}
+              style={{ padding: '5px 10px', fontSize: 11.5, whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: 4 }}
             >
-              <category.icon size={14} />
+              <category.icon size={12} />
               {category.label}
             </button>
           ))}

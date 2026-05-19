@@ -41,10 +41,18 @@ const offerings = [
 
 const HubCard = ({ icon: Icon, eyebrow, title, body }) => (
   <article className="hub-card reveal">
-    <div className="hub-card-icon"><Icon size={20} /></div>
-    <span className="hub-card-eyebrow">{eyebrow}</span>
-    <h3 className="hub-card-title">{title}</h3>
-    <p className="hub-card-body">{body}</p>
+    <div className="hub-card-flip">
+      <div className="hub-card-face hub-card-front">
+        <div className="hub-card-icon"><Icon size={20} /></div>
+        <span className="hub-card-eyebrow">{eyebrow}</span>
+        <h3 className="hub-card-title">{title}</h3>
+        <span className="hub-card-hint">Hover for details ▸</span>
+      </div>
+      <div className="hub-card-face hub-card-back" aria-hidden="true">
+        <h3 className="hub-card-back-title">{title}</h3>
+        <p className="hub-card-back-body">{body}</p>
+      </div>
+    </div>
   </article>
 );
 

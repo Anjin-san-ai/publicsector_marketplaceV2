@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 @variant dark (&:where(.dark, .dark *));
 
 /* ============================================================
@@ -101,6 +102,7 @@
 :root {
   --font-body:    "GDS Transport", Arial, sans-serif;
   --font-display: "GDS Transport", Arial, sans-serif;
+  --font-pixel:   "VT323", "Press Start 2P", ui-monospace, Menlo, monospace;
   --font-mono:    source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 
   --text-hero:        clamp(40px, 6vw, 68px);
@@ -409,13 +411,53 @@ a {
 }
 
 .page-header-title {
-  font-family: var(--font-display);
-  font-size: 25px;
-  font-weight: 700;
+  font-family: var(--font-pixel);
+  font-size: 42px;
+  font-weight: 400;
   color: var(--color-text-primary);
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
   margin: 0;
+  text-transform: none;
+}
+
+/* Typewriter — animates only the highlighted substring inside the title.
+   Uses an invisible "ghost" copy to reserve final width so the rest of the
+   heading doesn't reflow while typing. */
+.typewriter {
+  position: relative;
+  display: inline-block;
+  white-space: pre;
+  color: var(--color-accent);
+}
+
+.typewriter-ghost {
+  visibility: hidden;
+}
+
+.typewriter-visible {
+  position: absolute;
+  inset: 0;
+  white-space: pre;
+  color: var(--color-accent);
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  width: 0.45ch;
+  margin-left: 2px;
+  background: currentColor;
+  color: var(--color-accent);
+  vertical-align: -0.05em;
+  animation: typewriter-blink 0.9s steps(2, start) infinite;
+}
+
+@keyframes typewriter-blink {
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-cursor { animation: none; }
 }
 
 .page-header-subtitle {
@@ -886,6 +928,10 @@ body.sidebar-collapsed {
   .app-shell {
     padding-left: var(--sidebar-current-width);
     transition: padding-left 0.2s ease;
+    /* The sidebar already provides visual breathing room on the left, so we
+       trim the section padding inside the shell — keeps the right side from
+       leaving a large empty gap before the scrollbar. */
+    --section-padding-x: clamp(12px, 1vw, 16px);
   }
 }
 
@@ -1330,26 +1376,105 @@ body.sidebar-collapsed {
 
 .hub-grid-3 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
+@media (max-width: 900px) {
+  .hub-grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .hub-grid-3 { grid-template-columns: 1fr; }
+}
+
+/* Hub card — 3D flip; front shows just the heading, back reveals the body. */
 .hub-card {
+  position: relative;
+  display: block;
+  min-height: 200px;
+  perspective: 1400px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+.hub-card-flip {
+  position: relative;
+  width: 100%;
+  min-height: 200px;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.hub-card:hover .hub-card-flip {
+  transform: rotateY(180deg);
+}
+
+.hub-card-face {
+  position: absolute;
+  inset: 0;
   background: var(--color-bg-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   padding: 22px;
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   gap: 10px;
-  transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
-  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
 }
 
-.hub-card:hover {
+.hub-card:hover .hub-card-face {
   border-color: var(--color-border-strong);
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-2px);
+}
+
+.hub-card-back {
+  transform: rotateY(180deg);
+  border-color: var(--color-accent);
+  background:
+    linear-gradient(180deg, rgba(29, 112, 184, 0.08), transparent 50%),
+    var(--color-bg-surface);
+  gap: 8px;
+}
+
+.hub-card-hint {
+  margin-top: auto;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  align-self: flex-start;
+}
+
+.hub-card-back-title {
+  font-family: var(--font-pixel);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.hub-card-back-body {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-text-primary);
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hub-card-flip { transition: none; }
 }
 
 .hub-card-icon {
@@ -1417,9 +1542,26 @@ body.sidebar-collapsed {
 .section-light .hub-card-title { color: var(--color-text-dark); }
 .section-light .hub-card-body,
 .section-light .hub-card-list { color: #555; }
+.section-light .hub-card-back-title { color: var(--color-text-dark); }
+.section-light .hub-card-back-body { color: #555; }
 .section-light .hub-card-vision .hub-card-body,
 .section-light .hub-card-vision .hub-card-eyebrow,
 .section-light .hub-card-vision .hub-card-title { color: var(--color-accent-text); }
+
+/* Dark theme: section-light is white but the cards sit on dark surface
+   (var(--color-bg-surface) = #1A1A1A), so force light text on the cards. */
+[data-theme="dark"] .section-light .hub-card-title,
+[data-theme="dark"] .section-light .hub-card-back-title {
+  color: var(--color-text-primary);
+}
+[data-theme="dark"] .section-light .hub-card-body,
+[data-theme="dark"] .section-light .hub-card-list,
+[data-theme="dark"] .section-light .hub-card-back-body {
+  color: rgba(255, 255, 255, 0.78);
+}
+[data-theme="dark"] .section-light .hub-card-hint {
+  color: rgba(255, 255, 255, 0.55);
+}
 
 /* ============================================================
    MARKETPLACE GRID  (fixed 3-column layout for consistent rows)
@@ -1432,30 +1574,182 @@ body.sidebar-collapsed {
 
 /* ============================================================
    APP CARD  (marketplace item card — minimal, scannable)
+   3D flip on hover reveals the full description on the back face.
    ============================================================ */
 .app-card {
-  background: var(--color-bg-surface);
-  border-radius: var(--radius-card);
-  border: 1px solid var(--color-border);
-  padding: 20px;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-  box-shadow: var(--shadow-card);
-  cursor: pointer;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  row-gap: 14px;
+  position: relative;
+  display: block;
   min-height: 188px;
+  perspective: 1400px;
+  cursor: pointer;
   text-decoration: none;
   color: inherit;
-  position: relative;
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
 }
 
 a.app-card { color: inherit; }
 
-.app-card:hover {
+.app-card-flip {
+  position: relative;
+  width: 100%;
+  min-height: 188px;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.app-card:hover .app-card-flip {
+  transform: rotateY(180deg);
+}
+
+.app-card-face {
+  position: absolute;
+  inset: 0;
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+  overflow: hidden;
+}
+
+.app-card:hover .app-card-face {
   border-color: var(--color-border-strong);
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-2px);
+}
+
+.app-card-front {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.app-card-front .app-card-icon {
+  margin-bottom: 4px;
+}
+
+.app-card-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app-card-front .app-card-title {
+  display: block;
+  font-size: 17px;
+  line-height: 1.3;
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.app-card-front-foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.app-card-hint {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.app-card-back {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px;
+  border-color: var(--color-accent);
+  background:
+    linear-gradient(180deg, rgba(29, 112, 184, 0.08), transparent 50%),
+    var(--color-bg-surface);
+}
+
+.app-card-back-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.app-card-back-title {
+  font-family: var(--font-pixel);
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: 0.01em;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-card-back-eyebrow {
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.app-card-back-desc {
+  font-size: 13px;
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.app-card-back-desc::-webkit-scrollbar {
+  width: 4px;
+}
+.app-card-back-desc::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.4);
+  border-radius: 2px;
+}
+
+.app-card-back-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.app-card-back-foot-cta {
+  color: var(--color-accent);
 }
 
 .app-card:hover .app-card-arrow {
@@ -1468,10 +1762,17 @@ a.app-card { color: inherit; }
   opacity: 0.7;
 }
 
-.app-card.is-coming-soon:hover {
+.app-card.is-coming-soon:hover .app-card-flip {
   transform: none;
+}
+
+.app-card.is-coming-soon:hover .app-card-face {
   box-shadow: var(--shadow-card);
   border-color: var(--color-border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-card-flip { transition: none; }
 }
 
 /* Header */
